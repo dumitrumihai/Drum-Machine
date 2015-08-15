@@ -1,0 +1,134 @@
+﻿<!DOCTYPE HTML>
+<html ng-app="minidm">
+
+	<head>
+		<link href="lib/foundation/foundation.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/main.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body ng-controller="minidmCtrl" >
+		<div class="container">
+		
+			<div class="row" >&nbsp;</div>
+			
+			<div class="row">	
+				<div class="small-7 columns">
+					<h1 class='insetshadow'>EPIC DRUM MACHINE</h1>
+
+					<span class="smallText">
+						Be a panther, take a lemon ! ☺<br/>
+
+						<h3>♪  Music is LOVE, music is LIFE ! ♪</h3><br/>
+
+					</span>
+				</div>		
+				<div class="row">
+					<div class="small-5 columns">
+						<br/>
+						<a><img src="http://s4.postimg.org/6s2l0uzxp/png_man_hearing_music_by_selenator003_by_selenat.png"></a>
+					</div>			
+				</div>				
+			</div>
+			
+			<div class="row"><hr/></div>
+			
+			<div class="row">
+				<div class="small-2 columns">
+					<a ng-click="togglePlay()" class="button round width3" >play&nbsp;/&nbsp;stop</a>
+				</div>               
+				<div class="small-2 columns">
+					<span class="secondary label round width3">tempo</span> <br/><br/>
+				<input type="range" min="40" max="180" ng-change="updateTempo()" ng-model="tempo">
+
+				</div>	                
+				<div class="small-2 columns end">
+                    <a ng-click="randomize()" class="button round tiny width3" style="height:30px; margin-bottom:1px">randomize</a>
+                    <a ng-click="clear()" class="button round tiny width3" style="height:30px; margin-top:0">clear</a>
+				</div>                
+			</div>
+			
+			<div class="row gridRow" >
+				<div class="small-1 columns small-offset-1">
+					<span class="secondary label round">LOW | HIGH</span>
+				</div>
+				<div class="small-1 columns">
+					<span class="secondary label round">RESONANCE</span>
+				</div>			
+				<div class="small-9 columns">
+					<span ng-repeat="n in range(0, 16)">
+						<input type="radio" ng-checked="n==currentTick" disabled />
+						<span ng-if="n % 4 == 3 && n!=15">-</span>
+					</span>  	
+				</div>
+			</div>	
+
+			<div ng-repeat="ds in drumSamples" class="gridRow row">
+				<div class="small-1 columns">
+					<span ng-class="{label: true, alert: drumGrid[$index][currentTick] && play, secondary: !(drumGrid[$index][currentTick] && play), round: true,  width2: true}" >{{ds.name}}</span>
+				</div>	
+				<div class="small-1 columns">
+					<input type="range" ng-model="drumSamples[$index].filterFrequency" min="200" max="7000" class="width1" /> 
+				</div>
+				<div class="small-1 columns">
+					<input type="range" ng-model="drumSamples[$index].filterQ" min="0" max="40" class="width1" /> 
+				</div>
+				<div class="small-9 columns">
+					<span ng-repeat="n in range(0, 16)">
+						<input type="checkbox" ng-click="checkAndPlayWav($parent.$index, n, true)" ng-model="drumGrid[$parent.$index][n]" />
+						<span ng-if="n % 4 == 3 && n!=15">-</span>
+					</span>  
+				</div>	
+			</div>	
+
+			<div class="row"><hr/></div>
+					
+			<div class="row"> 
+				<div class="small-1 columns small-offset-1">
+					<span class="secondary label round">LOW | HIGH</span> 
+				</div>
+				<div class="small-1 columns end">
+					<span class="secondary label round">RESONANCE</span> 
+				</div>				
+			</div>
+			
+			<div class="row"> 
+				<div class="small-1 columns">
+					<span class="secondary label round width2">MANUAL</span>
+				</div>
+				<div class="small-1 columns">
+					<input type="range" ng-model="filterFrequency" min="200" max="7000" class="width1" />
+				</div>	
+				<div class="small-1 columns">
+					<input type="range" ng-model="filterQ" min="0" max="40" class="width1" />
+				</div>				
+				<div class="small-9 columns key">
+					<a ng-repeat="n in range(0, 29)" ng-click="playNote(n, 127, true)" 
+					ng-class="{whiteKey: isWhiteKey(n), blackKey: isBlackKey(n), activeKey: noteKeysActive[n]}" href="#" >{{noteKeys[n]}}</a>
+				</div>
+			</div>			
+			
+			<div class="row"><hr/></div>
+            
+            <div class="row">
+				<div class="small-12 columns smallText">
+                    <p>
+                        Old school drum machine... still the best ^^ !  <br/> <br/>
+                    </p>
+
+					<a><img src="http://s14.postimg.org/edh4u1hpt/next_great_drummer.jpg"></a> <br/> <br/>
+                    <h3>
+                        Enjoy it !!
+                    </h3>
+
+				</div>
+			</div>
+
+		</div> <!-- container -->	
+
+		<script src="lib/angular/angular.min.js"></script>
+		<script src="lib/angular/hotkeys.min.js"></script>
+		<script src="lib/buffer-loader/buffer-loader.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers.js"></script> 
+	</body>
+</html>
